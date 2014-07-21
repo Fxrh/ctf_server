@@ -1,0 +1,12 @@
+{% extends "challenges/layout.html" %}
+
+{% block body %}
+<p>Challenges</p>
+{% if challenge_list %}
+    <ul>
+    {% for challenge in challenge_list %}
+        <li><a href="{% url 'challenges:info' challenge.id %}">{{ challenge.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}

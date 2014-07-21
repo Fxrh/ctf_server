@@ -1,0 +1,16 @@
+<html>
+
+<head>
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'challenges/style.css' %}" />
+<title>CTF Server</title>
+
+</head>
+<body>
+
+{% if username %}<p>Logged in as {{ username }}.</p>{% endif %}
+
+{% block body %}{% endblock %}
+</body>
+</html>

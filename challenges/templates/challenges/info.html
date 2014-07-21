@@ -1,0 +1,29 @@
+{% extends "challenges/layout.html" %}
+
+{% block body %}
+
+<h1>{{ challenge.name }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% if success_message %}<p><strong>{{ success_message }}</strong></p>{% endif %}
+{% if is_author %}<p>You are the author.</p>{% endif %}
+{% if username %}
+    {% if is_solved %}
+        <p>You already solved this challenge</p>
+    {% else %}
+        <p>You did not yet solve this challenge</p>
+    {% endif %}
+{% else %}
+    <p>Log in to save which challenges you solved</p>
+{% endif %}
+
+<p>{{ challenge.description }}</p>
+
+<form action="{% url 'challenges:info' challenge.id %}" method="post">
+{% csrf_token %}
+<label for="solution">Enter solution:</label>
+<input type="text" name="solution">
+<input type="submit" value="submit">
+</form>
+
+{% endblock %}
