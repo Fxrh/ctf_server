@@ -26,6 +26,9 @@ class User(models.Model):
         else:
             return self.has_solved(challenge)
 
+    def is_author(self, challenge):
+        return challenge.author == self
+
 
 class Challenge(models.Model):
     name = models.CharField(max_length=200)
