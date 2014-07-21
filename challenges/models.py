@@ -41,7 +41,9 @@ class Challenge(models.Model):
     def check_solution(self, submitted_solution):
         return self.solution.strip() == submitted_solution.strip()
 
-    def user_solved(self, user):
+    def set_solved(self, user):
+        if user == self.author:
+            raise Exception("Author can't solve his own challenge")
         self.solved_by.add(user)
         user.current_points += self.points
         if self.solved_by.count() == 1:
