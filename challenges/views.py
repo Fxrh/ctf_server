@@ -67,24 +67,4 @@ class InfoView(UserMixin, generic.DetailView):
         except KeyError:
             self.request.error_message = "Something went wrong..."
         return self.get(request, *args, **kwargs)
-    
-
-def login(request):
-    context = {}
-    try:
-        username = request.POST['username']
-        password = request.POST['password']
-        user = auth.authenticate(username=username, password=password)
-        if user is not None and user.is_active:
-            auth.login(request, user)
-            return HttpResponseRedirect(reverse('challenges:index'))
-        else:
-            context['error_message'] = "Login failed!"
-    except KeyError:
-        pass
-    return render(request, 'challenges/login.html', context)
-
-def logout(request):
-    auth.logout(request)
-    return HttpResponseRedirect(reverse('challenges:index'))
 
