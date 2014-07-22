@@ -7,12 +7,33 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-from ctf_server import personalsettings
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+def try_create_personalsettings():
+    print("Trying to create personalsettings...")
+    if os.path.exists(os.path.join(BASE_DIR, 'ctf_server/personalsettings.py')):
+        return
+    try:
+        f = open(os.path.join(BASE_DIR, 'ctf_server/personalsettings.py'), 'w')
+        f.write("# Do not include this file in version control\n\n")
+        chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
+        secret = get_random_string(50, chars)
+        f.write("SECRET_KEY = '{s}'\n".format(s=secret))
+        f.close()
+        print("Created")
+    except IOError:
+        return
+
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from django.utils.crypto import get_random_string
+try:
+    from ctf_server import personalsettings
+except ImportError:
+    try_create_personalsettings()
+    from ctf_server import personalsettings
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
