@@ -1,12 +1,30 @@
 {% extends "challenges/layout.html" %}
 
 {% block body %}
-<p>Challenges</p>
-{% if challenge_list %}
-    <ul>
-    {% for challenge in challenge_list %}
-        <li><a href="{% url 'challenges:info' challenge.id %}">{{ challenge.name }}</a></li>
-    {% endfor %}
-    </ul>
-{% endif %}
+<div class="row">
+<div class="col-md-2">
+    <h3>Category 1</h3>
+    {% if challenge_list %}
+        <div class="list-group">
+        {% for challenge in challenge_list %}
+            <a href="{% url 'challenges:info' challenge.id %}" class="list-group-item list-group-item-success">
+                {{ challenge.name }} <span class="badge">{{ challenge.points }}</span>
+            </a>
+        {% endfor %}
+        </div>
+    {% endif %}
+</div>
+<div class="col-md-2">
+    <h3>Category 2</h3>
+    {% if challenge_list %}
+        <div class="list-group">
+        {% for challenge in challenge_list %}
+            <a href="{% url 'challenges:info' challenge.id %}" class="list-group-item">
+                {{ challenge.name }} <span class="badge">{{ challenge.points }}</span>
+            </a>
+        {% endfor %}
+        </div>
+    {% endif %}
+</div>
+</div>
 {% endblock %}
