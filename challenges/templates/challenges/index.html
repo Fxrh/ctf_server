@@ -2,29 +2,17 @@
 
 {% block body %}
 <div class="row">
-<div class="col-md-2">
-    <h3>Category 1</h3>
-    {% if challenge_list %}
+{% for category in category_list %}
+    <div class="col-md-2">
+        <h3 align="center">{{ category.name }}</h3>
         <div class="list-group">
-        {% for challenge in challenge_list %}
+        {% for challenge in category.challenges %}
             <a href="{% url 'challenges:info' challenge.id %}" class="list-group-item list-group-item-success">
                 {{ challenge.name }} <span class="badge">{{ challenge.points }}</span>
             </a>
         {% endfor %}
         </div>
-    {% endif %}
-</div>
-<div class="col-md-2">
-    <h3>Category 2</h3>
-    {% if challenge_list %}
-        <div class="list-group">
-        {% for challenge in challenge_list %}
-            <a href="{% url 'challenges:info' challenge.id %}" class="list-group-item">
-                {{ challenge.name }} <span class="badge">{{ challenge.points }}</span>
-            </a>
-        {% endfor %}
-        </div>
-    {% endif %}
-</div>
+    </div>
+{% endfor %}
 </div>
 {% endblock %}

@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib import auth
 
-
 class User(models.Model):
     authuser = models.ForeignKey(auth.models.User)
     current_points = models.IntegerField()
@@ -30,6 +29,16 @@ class User(models.Model):
         return challenge.author == self
 
 
+class ChallengeCategory(models.Model):
+    name = models.CharField(max_length=200)
+
+    def challenges(self):
+        # TODO: sollte performanter gehen, ist immerhin sql
+        for challenge in Challenge.objects.all():
+            if challenge.category == self:
+                yield challenge
+
+
 class Challenge(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
@@ -37,6 +46,17 @@ class Challenge(models.Model):
     author = models.ForeignKey(User, related_name="%(app_label)s_%(class)s_author")
     solved_by = models.ManyToManyField(User)
     points = models.IntegerField()
+    category = models.ForeignKey(ChallengeCategory)
+
+    @staticmethod
+    def create_challenge( name, solution, author, points, category ):
+        c = Challenge.objects.create( name=name, solution=solution, author=author, points=points, category=category )
+        c.save()
+        return c
+
+    @staticmethod
+    def does_name_exist( name ):
+        return Challenge.objects.filter(name=name).exists()
 
     def check_solution(self, submitted_solution):
         return self.solution.strip() == submitted_solution.strip()

@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 
 from django.contrib import auth
 
-from challenges.models import Challenge, User
+from challenges.models import Challenge, User, ChallengeCategory
 
 
 class UserMixin:
@@ -34,9 +34,9 @@ def generate_message(success):
     #return render(request, 'challenges/info.html', {'challenge': challenge})
     
 class IndexView(UserMixin, generic.ListView):
-    model = Challenge
+    model = ChallengeCategory
     template_name = 'challenges/index.html'
-    context_object_name = 'challenge_list'
+    context_object_name = 'category_list'
 
 
 class InfoView(UserMixin, generic.DetailView):
@@ -68,3 +68,26 @@ class InfoView(UserMixin, generic.DetailView):
             self.request.error_message = "Something went wrong..."
         return self.get(request, *args, **kwargs)
 
+
+class CreateView(UserMixin, generic.TemplateView):
+    template_name = 'challenges/create.html'
+
+    def post(self, request, *args, **kwargs):
+        submitted_name = request.POST['name'].strip()
+        self.request.correct_formatting = False
+        self.request.does_not_yet_exist = True
+        self.create_success = False
+        if 3 <= len(submitted_name) <= 16:
+            self.request.correct_formatting = True
+        if Challenge.does_name_exist(submitted_name):
+            self.request.does_not_yet_exist = False
+        if self.request.correct_formatting and self.request.does_not_yet_exist:
+
+        return self.get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(InfoView, self).get_context_data(**kwargs)
+        user = User.from_authuser(self.request.user)
+        context['correct_formatting'] = self.request.correct_formatting
+        context['does_not_yet_exist'] = self.request.does_not_yet_exist
+        return context
