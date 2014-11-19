@@ -36,6 +36,9 @@ class ChallengeCategory(models.Model):
     def challenges(self):
         return Challenge.objects.filter(category=self)
 
+    def __str__(self):
+        return self.name
+
 
 class Challenge(models.Model):
     name = models.CharField(max_length=200)
