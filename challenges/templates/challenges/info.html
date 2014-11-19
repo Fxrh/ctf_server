@@ -21,9 +21,10 @@
 
 <form action="{% url 'challenges:info' challenge.id %}" method="post">
 {% csrf_token %}
-<label for="solution">Enter solution:</label>
-<input type="text" name="solution">
-<input type="submit" value="submit">
+{{ form }}
+<!--<label for="try_solution">Enter solution:</label>-->
+<!--<input id="try_solution" type="text" name="try_solution" maxlength="200">-->
+<input type="submit" value="Submit">
 </form>
 
 {% endblock %}

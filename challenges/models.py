@@ -32,12 +32,9 @@ class User(models.Model):
 class ChallengeCategory(models.Model):
     name = models.CharField(max_length=200)
 
+    @property
     def challenges(self):
-        Challenge.objects.filter(category=self)
-        # TODO: sollte performanter gehen, ist immerhin sql
-        # for challenge in Challenge.objects.all():
-        #     if challenge.category == self:
-        #         yield challenge
+        return Challenge.objects.filter(category=self)
 
 
 class Challenge(models.Model):
