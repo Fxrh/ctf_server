@@ -12,7 +12,7 @@ class User(models.Model):
 
     @staticmethod
     def create_user(authuser):
-        u = User.objects.create(authuser=authuser, current_points=0)
+        u = User(authuser=authuser, current_points=0)
         u.save()
         return u
 
@@ -33,10 +33,11 @@ class ChallengeCategory(models.Model):
     name = models.CharField(max_length=200)
 
     def challenges(self):
+        Challenge.objects.filter(category=self)
         # TODO: sollte performanter gehen, ist immerhin sql
-        for challenge in Challenge.objects.all():
-            if challenge.category == self:
-                yield challenge
+        # for challenge in Challenge.objects.all():
+        #     if challenge.category == self:
+        #         yield challenge
 
 
 class Challenge(models.Model):
@@ -50,7 +51,7 @@ class Challenge(models.Model):
 
     @staticmethod
     def create_challenge( name, solution, author, points, category ):
-        c = Challenge.objects.create( name=name, solution=solution, author=author, points=points, category=category )
+        c = Challenge( name=name, solution=solution, author=author, points=points, category=category )
         c.save()
         return c
 
