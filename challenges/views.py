@@ -24,7 +24,7 @@ def index(request):
 
 
 def info_test_form(request, challenge, form, context):
-    if form.isValid():
+    if form.is_valid():
         submitted_solution = form.cleaned_data['try_solution']
         if challenge.check_solution(submitted_solution):
             context['success_msg'] = "Success!"

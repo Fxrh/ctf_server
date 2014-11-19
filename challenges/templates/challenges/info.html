@@ -4,8 +4,8 @@
 
 <h1>{{ challenge.name }}</h1>
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-{% if success_message %}<p><strong>{{ success_message }}</strong></p>{% endif %}
+{% if error_msg %}<p><strong>{{ error_msg }}</strong></p>{% endif %}
+{% if success_msg %}<p><strong>{{ success_msg }}</strong></p>{% endif %}
 {% if is_author %}<p>You are the author.</p>{% endif %}
 {% if username %}
     {% if is_solved %}

@@ -3,8 +3,8 @@
 
 <h1>Create new Challenge</h1>
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-{% if success_message %}<p><strong>{{ success_message }}</strong></p>{% endif %}
+{% if error_msg %}<p><strong>{{ error_msg }}</strong></p>{% endif %}
+{% if success_msg %}<p><strong>{{ success_msg }}</strong></p>{% endif %}
 
 <form action="{% url 'challenges:create' %}" method="post">
 {% csrf_token %}
