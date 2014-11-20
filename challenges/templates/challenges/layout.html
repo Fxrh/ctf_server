@@ -32,6 +32,7 @@
       </ul>
       {% if username %}
       <p class="navbar-text navbar-right">Logged in as {{ username }} (<a href="/logout">Logout</a>)</p>
+      <p class="navbar-text navbar-center">Your Points: {{ user_points }} </p>
       {% else %}
       <p class="navbar-text navbar-right"><a href="/login">Login</a></p>
       {% endif %}

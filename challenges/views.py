@@ -12,7 +12,8 @@ from challenges.forms import InfoForm, CreateChallengeForm, EditChallengeForm
 
 def standardContext(request):
     if request.user.is_authenticated():
-        return {'username': request.user.get_username()}
+        return {'username': request.user.get_username(),
+                'user_points': User.from_authuser(request.user).current_points }
     return {}
 
 
