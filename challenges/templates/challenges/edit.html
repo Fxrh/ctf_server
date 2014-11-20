@@ -1,0 +1,14 @@
+{% block body %}
+
+<h1>Edit Challenge {{ challenge.name }} </h1>
+
+{% if error_msg %}<p><strong>{{ error_msg }}</strong></p>{% endif %}
+{% if success_msg %}<p><strong>{{ success_msg }}</strong></p>{% endif %}
+
+<form action="{% url 'challenges:edit' challenge.id %}" method="post">
+{% csrf_token %}
+{{ form }}
+<input type="submit" value="submit">
+</form>
+
+{% endblock %}

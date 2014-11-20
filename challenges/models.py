@@ -4,7 +4,7 @@ from django.contrib import auth
 class User(models.Model):
     authuser = models.ForeignKey(auth.models.User)
     current_points = models.IntegerField()
-    ssh_key = models.CharField(max_length=8400)
+    ssh_key = models.CharField(max_length=8400, blank=True)
 
     @staticmethod
     def from_authuser(authuser):
@@ -28,30 +28,35 @@ class User(models.Model):
     def is_author(self, challenge):
         return challenge.author == self
 
+    def __str__(self):
+        return self.authuser.get_username()
+
 
 class ChallengeCategory(models.Model):
     name = models.CharField(max_length=200)
 
     @property
     def challenges(self):
-        return Challenge.objects.filter(category=self)
+        return Challenge.objects.filter(category=self, is_published=True)
 
     def __str__(self):
         return self.name
 
 
 class Challenge(models.Model):
-    name = models.CharField(max_length=200)
-    description = models.TextField()
-    solution = models.CharField(max_length=200)
-    author = models.ForeignKey(User, related_name="%(app_label)s_%(class)s_author")
-    solved_by = models.ManyToManyField(User)
-    points = models.IntegerField()
-    category = models.ForeignKey(ChallengeCategory)
+    name = models.CharField(max_length=40, verbose_name='name')
+    description = models.TextField(verbose_name="description")
+    solution = models.CharField(max_length=200, verbose_name='solution')
+    author = models.ForeignKey(User, related_name="%(app_label)s_%(class)s_author", verbose_name='author')
+    solved_by = models.ManyToManyField(User, verbose_name='solved by')
+    points = models.IntegerField(verbose_name='points')
+    category = models.ForeignKey(ChallengeCategory, verbose_name='category')
+    is_published = models.BooleanField(verbose_name='is published', default=False)
 
     @staticmethod
     def create_challenge( name, solution, author, points, category ):
-        c = Challenge( name=name, solution=solution, author=author, points=points, category=category )
+        c = Challenge( name=name, solution=solution, author=author, points=points, category=category,
+                       is_published=False )
         c.save()
         return c
 
@@ -67,9 +72,11 @@ class Challenge(models.Model):
             raise Exception("Author can't solve his own challenge")
         self.solved_by.add(user)
         user.current_points += self.points
+        user.save()
         if self.solved_by.count() == 1:
             # Give points to author
             self.author.current_points += self.points
+            self.author.save()
     
     # Easier debug output
     def __str__(self):

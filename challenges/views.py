@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.template import RequestContext, loader
 from django.views import generic
 from django.core.urlresolvers import reverse
@@ -8,7 +8,7 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 
 from challenges.models import Challenge, User, ChallengeCategory
-from challenges.forms import InfoForm, CreateChallengeForm
+from challenges.forms import InfoForm, CreateChallengeForm, EditChallengeForm
 
 def standardContext(request):
     if request.user.is_authenticated():
@@ -31,7 +31,7 @@ def info_test_form(request, challenge, form, context):
             if request.user.is_authenticated():
                 user = User.from_authuser(request.user)
                 if user != challenge.author:
-                    challenge.set_solved(request.user)
+                    challenge.set_solved(user)
         else:
             context['error_msg'] = "Sorry, wrong solution..."
     else:
@@ -83,3 +83,34 @@ def createChallenge(request):
     context['form'] = form
 
     return render(request, 'challenges/create.html', context)
+
+
+@login_required
+def editChallenge(request, challenge_id):
+    context = standardContext(request)
+    user = User.from_authuser(request.user)
+    challenge = get_object_or_404(Challenge, pk=challenge_id)
+    is_published_before = challenge.is_published
+
+    if challenge.author != user:
+        return HttpResponseForbidden()
+
+    if request.method == 'POST':
+        form = EditChallengeForm(request.POST, instance=challenge)
+        if form.is_valid():
+            is_published = form.cleaned_data['is_published']
+            print( "Before: {0}, After: {1}".format(is_published_before, is_published) )
+            if (not is_published) and is_published_before:
+                context["error_msg"] = 'Cannot unpublish a challenge!'
+                challenge = Challenge.objects.get(id=challenge_id)
+            else:
+                form.save()
+                context["success_msg"] = 'Changes saved.'
+        else:
+            context["error_msg"] = 'Bad Data'
+    else:
+        form = EditChallengeForm(instance=challenge)
+    context['form'] = form
+    context['challenge'] = challenge
+
+    return render(request, 'challenges/edit.html', context)
