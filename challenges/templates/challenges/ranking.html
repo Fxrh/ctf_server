@@ -1,0 +1,16 @@
+{% extends "challenges/layout.html" %}
+
+{% block body %}
+<table class="table">
+    <tr>
+        <th>User</th>
+        <th>Points</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+        <td>{{ user.authuser.get_username }}</td>
+        <td>{{ user.current_points }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

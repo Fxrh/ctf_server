@@ -4,6 +4,7 @@ from challenges import views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
+    url(r'^ranking/$', views.ranking, name="ranking"),
     url(r'^challenge/(?P<challenge_id>\d+)/$', views.info, name="info"),
     url(r'^challenge/(?P<challenge_id>\d+)/edit/$', views.editChallenge, name="edit"),
     url(r'^create/$', views.createChallenge, name="create"),

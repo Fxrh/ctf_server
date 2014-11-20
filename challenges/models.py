@@ -28,6 +28,10 @@ class User(models.Model):
     def is_author(self, challenge):
         return challenge.author == self
 
+    @staticmethod
+    def getRanking():
+        return User.objects.order_by('-current_points') # - == descending
+
     def __str__(self):
         return self.authuser.get_username()
 

@@ -62,6 +62,14 @@ def info(request, challenge_id):
     return render(request, 'challenges/info.html', context)
 
 
+def ranking(request):
+    context = standardContext(request)
+    users = User.getRanking()
+
+    context['users'] = users
+    return render(request, 'challenges/ranking.html', context)
+
+
 @login_required
 def createChallenge(request):
     context = standardContext(request)
