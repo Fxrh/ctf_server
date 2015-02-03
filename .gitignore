@@ -1,4 +1,4 @@
-ctf_server/personalsettings.py
+web/ctf_server/personalsettings.py
 db.sqlite3
 __pycache__
 .idea
