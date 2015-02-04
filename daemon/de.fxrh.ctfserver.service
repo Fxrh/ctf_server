@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=de.fxrh.ctfserver
+Exec=/usr/local/bin/ctfdaemon
+User=root
