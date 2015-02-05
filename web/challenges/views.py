@@ -8,7 +8,7 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 
 from challenges.models import Challenge, User, ChallengeCategory
-from challenges.forms import InfoForm, CreateChallengeForm, EditChallengeForm
+from challenges.forms import InfoForm, CreateChallengeForm, EditChallengeForm, EditAccountForm
 
 def standardContext(request):
     if request.user.is_authenticated():
@@ -70,10 +70,27 @@ def ranking(request):
     return render(request, 'challenges/ranking.html', context)
 
 
+def showAccount(request, user_id):
+    context = standardContext(request)
+    shown_user = get_object_or_404(User, pk=user_id)
+    context['shown_user'] = shown_user
+    context['shown_username'] = shown_user.authuser.get_username()
+
+    if request.user.is_authenticated():
+        user = User.from_authuser(request.user)
+        if user == shown_user:
+            context['own_account'] = True
+
+    return render(request, 'challenges/account.html', context)
+
+
 @login_required
 def createChallenge(request):
     context = standardContext(request)
     user = User.from_authuser(request.user)
+
+    if not user.allow_create:
+        return HttpResponseForbidden()
 
     if request.method == "POST":
         form = CreateChallengeForm(request.POST)
@@ -123,3 +140,26 @@ def editChallenge(request, challenge_id):
     context['challenge'] = challenge
 
     return render(request, 'challenges/edit.html', context)
+
+
+@login_required()
+def editAccount(request):
+    context = standardContext(request)
+    user = User.from_authuser(request.user)
+
+    if request.method == 'POST':
+        form = EditAccountForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            update_keys_for_user(user)
+            context["success_msg"] = 'Changes saved.'
+    else:
+        form = EditAccountForm(instance=user)
+    context['form'] = form
+
+    return render(request, 'challenges/editAccount.html', context)
+
+
+def update_keys_for_user(user):
+    pass
+

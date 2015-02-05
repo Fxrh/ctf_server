@@ -5,6 +5,7 @@ class User(models.Model):
     authuser = models.ForeignKey(auth.models.User)
     current_points = models.IntegerField()
     ssh_key = models.CharField(max_length=8400, blank=True)
+    allow_create = models.BooleanField(default=False)
 
     @staticmethod
     def from_authuser(authuser):
@@ -12,7 +13,7 @@ class User(models.Model):
 
     @staticmethod
     def create_user(authuser):
-        u = User(authuser=authuser, current_points=0)
+        u = User(authuser=authuser, current_points=0, allow_create=False)
         u.save()
         return u
 

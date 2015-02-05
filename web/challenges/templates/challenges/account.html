@@ -1,0 +1,29 @@
+{% extends "challenges/layout.html" %}
+
+{% block body %}
+
+{% if own_account %}
+<h1>Your Account</h1>
+{% else %}
+<h1>{{ shown_username }}'s Account</h1>
+{% endif %}
+
+<table>
+<tr>
+    <td>Points: </td>
+    <td>{{ shown_user.current_points }}</td>
+</tr>
+{% if own_account %}
+<tr>
+    <td>SSH Key: </td>
+    <td>{{ shown_user.ssh_key }}</td>
+</tr>
+{% endif %}
+</table>
+
+{% if own_account %}
+<p><a href="{% url 'challenges:editAccount' %}">Edit Account</a></p>
+<p><a href="{% url 'challenges:changePassword' %}">Change Password</a></p>
+{% endif %}
+
+{% endblock %}

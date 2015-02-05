@@ -1,5 +1,5 @@
 from django import forms
-from challenges.models import ChallengeCategory, Challenge
+from challenges.models import ChallengeCategory, Challenge, User
 
 
 class InfoForm(forms.Form):
@@ -25,4 +25,11 @@ class EditChallengeForm(forms.ModelForm):
     # points = forms.IntegerField(max_value=500, min_value=0, label='Points')
     # description = forms.CharField(label='Description')
     # is_published = forms.BooleanField(label='Publish')
+
+
+class EditAccountForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['ssh_key']
 
