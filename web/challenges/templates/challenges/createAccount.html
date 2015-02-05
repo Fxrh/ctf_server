@@ -1,0 +1,16 @@
+{% extends "challenges/layout.html" %}
+
+{% block body %}
+
+<h1>Create Account</h1>
+
+<form action="{% url 'challenges:createAccount' %}" method="post">
+{% csrf_token %}
+<table>
+    {{ form.as_table }}
+</table>
+
+<input type="submit" value="submit">
+</form>
+
+{% endblock %}

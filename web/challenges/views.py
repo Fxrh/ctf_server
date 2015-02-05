@@ -163,3 +163,23 @@ def editAccount(request):
 def update_keys_for_user(user):
     pass
 
+
+def createAccount(request):
+    if request.user.is_authenticated():
+        return redirect("challenges:index")
+
+    context = standardContext(request)
+    if request.method == 'POST':
+        form = auth.forms.UserCreationForm(request.POST)
+        if form.is_valid():
+            authuser = form.save()
+            user = User.create_user(authuser)
+            # not quite sure how to login the user automatically
+            return redirect("challenges:login")
+    else:
+        form = auth.forms.UserCreationForm()
+    context['form'] = form
+
+    return render(request, 'challenges/createAccount.html', context)
+
+
