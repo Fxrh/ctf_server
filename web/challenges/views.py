@@ -84,7 +84,7 @@ def createChallenge(request):
                 context['error_msg'] = "A challenge with this name already exists."
             else:
                 challenge = Challenge.create_challenge(name, 'SomeFlag', user, 100, category )
-                return redirect("challenges:info", challenge_id=challenge.id)
+                return redirect("challenges:edit", challenge_id=challenge.id)
         else:
             context['error_msg'] = "Bad data"
     else:
