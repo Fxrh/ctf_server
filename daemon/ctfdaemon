@@ -10,6 +10,7 @@ import dbus.service
 import dbus.mainloop.glib
 
 import subprocess
+import os
 
 class CTFServer(dbus.service.Object):
     def __init__(self, bus, object_path):
@@ -21,31 +22,27 @@ class CTFServer(dbus.service.Object):
         return "Hello, World!"
     
     @dbus.service.method(dbus_interface='de.fxrh.ctfserver',
-                         in_signature='i', out_signature='b')
+                         in_signature='i', out_signature='')
     def addServiceAccount( self, service_id ):
         try:
             service_id = int(service_id)
-            a=subprocess.call(["useradd", "-mUK", "UMASK=077", "ctf-"+str(service_id)])
-            if a != 0:
-                return False
-            
-        except Exception as e:
-            print(e)
-            return False
-        return True
+        except ValueError:
+            raise Exception("Only integers allowed as service ids")
+        subprocess.check_call(["useradd", "-mUK", "UMASK=077", "ctf-"+str(service_id)])
     
     @dbus.service.method(dbus_interface='de.fxrh.ctfserver',
-                         in_signature='s', out_signature='b')
-    def setServiceKeys( service_id, keys ):
+                         in_signature='is', out_signature='')
+    def setServiceKeys( self, service_id, keys ):
         try:
             service_id = int(service_id)
-            os.makedirs("/home/ctf-"+str(service_id)+"/.ssh", exist_ok=True)
-            with open("/home/ctf-"+str(service_id)+"/.ssh/authorized_keys", "w") as f:
-                f.write(keys)
-        except Exception as e:
-            print(e)
-            return False
-        return True
+        except ValueError:
+            raise Exception("Only integers allowed as service ids")
+        home_dir = "home/ctf-"+str(service_id)
+        if not os.path.exists(home_dir):
+            raise Exception("Home directory for user {0} does not exist".format(service_id))
+        os.makedirs("/home/ctf-"+str(service_id)+"/.ssh", exist_ok=True)
+        with open("/home/ctf-"+str(service_id)+"/.ssh/authorized_keys", "w") as f:
+            f.write(keys)
     
 
 def main():
