@@ -19,6 +19,7 @@ def standardContext(request):
 
 def index(request):
     context = standardContext(request)
+    context['is_index'] = True
     category_list = ChallengeCategory.objects.all()
     context['category_list'] = category_list
     return render(request, 'challenges/index.html', context)
@@ -64,6 +65,7 @@ def info(request, challenge_id):
 
 def ranking(request):
     context = standardContext(request)
+    context['is_ranking'] = True
     users = User.getRanking()
 
     context['users'] = users
