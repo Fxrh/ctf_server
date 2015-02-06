@@ -29,6 +29,11 @@ class User(models.Model):
     def is_author(self, challenge):
         return challenge.author == self
 
+    def created_challenges(self):
+        for challenge in Challenge.objects.all():
+            if self.is_author(challenge):
+                yield challenge
+
     @staticmethod
     def getRanking():
         return User.objects.order_by('-current_points') # - == descending

@@ -10,6 +10,8 @@ from django.contrib.auth.decorators import login_required
 from challenges.models import Challenge, User, ChallengeCategory
 from challenges.forms import InfoForm, CreateChallengeForm, EditChallengeForm, EditAccountForm
 
+from challenges import backend
+
 def standardContext(request):
     if request.user.is_authenticated():
         return {'username': request.user.get_username(),
@@ -103,6 +105,7 @@ def createChallenge(request):
                 context['error_msg'] = "A challenge with this name already exists."
             else:
                 challenge = Challenge.create_challenge(name, 'SomeFlag', user, 100, category )
+                backend.create_challenge(challenge)
                 return redirect("challenges:edit", challenge_id=challenge.id)
         else:
             context['error_msg'] = "Bad data"
@@ -153,17 +156,13 @@ def editAccount(request):
         form = EditAccountForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            update_keys_for_user(user)
+            backend.update_keys_for_user(user)
             context["success_msg"] = 'Changes saved.'
     else:
         form = EditAccountForm(instance=user)
     context['form'] = form
 
     return render(request, 'challenges/editAccount.html', context)
-
-
-def update_keys_for_user(user):
-    pass
 
 
 def createAccount(request):

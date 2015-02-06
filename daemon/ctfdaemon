@@ -39,7 +39,7 @@ class CTFServer(dbus.service.Object):
             raise Exception("Only integers allowed as service ids")
         home_dir = "home/ctf-"+str(service_id)
         if not os.path.exists(home_dir):
-            raise Exception("Home directory for user {0} does not exist".format(service_id))
+            raise Exception("Home directory for challenge {0} does not exist".format(service_id))
         os.makedirs("/home/ctf-"+str(service_id)+"/.ssh", exist_ok=True)
         with open("/home/ctf-"+str(service_id)+"/.ssh/authorized_keys", "w") as f:
             f.write(keys)
