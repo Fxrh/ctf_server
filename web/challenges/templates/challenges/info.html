@@ -2,7 +2,9 @@
 
 {% block body %}
 
-<h1>{{ challenge.name }}</h1>
+<h1>{{ challenge.name }}
+    {% if is_author %}<small>(<a href="{% url 'challenges:edit' challenge.id %}">edit</a>)</small>{% endif %}
+</h1>
 
 {% if error_msg %}<div class="alert alert-danger">{{ error_msg }}</div>{% endif %}
 {% if success_msg %}<div class="alert alert-success">{{ success_msg }}</div>{% endif %}

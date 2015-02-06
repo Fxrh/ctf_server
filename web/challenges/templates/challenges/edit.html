@@ -2,7 +2,7 @@
 
 {% block body %}
 
-<h2>Edit Challenge {{ challenge.name }}</h2>
+<h2>Edit Challenge {{ challenge.name }} <small>(<a href="{% url 'challenges:info' challenge.id %}">show</a>)</small></h2>
 
 {% if error_msg %}<div class="alert alert-danger">{{ error_msg }}</div>{% endif %}
 {% if success_msg %}<div class="alert alert-success">{{ success_msg }}</div>{% endif %}
