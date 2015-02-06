@@ -1,6 +1,18 @@
 {% extends "challenges/layout.html" %}
 
 {% block body %}
+{% if user %}
+<div class="alert alert-info" role="alert">
+    {% if user.allow_create %}
+    If you want to create your own challenge,
+    <a href="{% url 'challenges:create' %}" class="alert-link">
+        click here!
+    </a>
+    {% else %}
+    If you want to create your own challenge, ask fxrh to unlock this feature for you!
+    {% endif %}
+</div>
+{% endif %}
 <div class="row">
 {% for category in category_list %}
     <div class="col-md-2">

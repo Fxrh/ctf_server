@@ -1,4 +1,8 @@
-<h1> Login </h1>
+{% extends "challenges/layout.html" %}
+
+{% block body %}
+
+<h2> Login </h2>
 
 {% if form.errors %}<p><strong>Your username and password didn't match. Please try again.</strong></p>{% endif %}
 
@@ -18,3 +22,5 @@
 <input type="submit" value="login" />
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
+
+{% endblock %}

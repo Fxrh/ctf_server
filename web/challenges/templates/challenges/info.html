@@ -4,8 +4,8 @@
 
 <h1>{{ challenge.name }}</h1>
 
-{% if error_msg %}<p><strong>{{ error_msg }}</strong></p>{% endif %}
-{% if success_msg %}<p><strong>{{ success_msg }}</strong></p>{% endif %}
+{% if error_msg %}<div class="alert alert-danger">{{ error_msg }}</div>{% endif %}
+{% if success_msg %}<div class="alert alert-success">{{ success_msg }}</div>{% endif %}
 {% if is_author %}<p>You are the author.</p>{% endif %}
 {% if username %}
     {% if is_solved %}
@@ -17,7 +17,7 @@
     <p>Log in to save which challenges you solved</p>
 {% endif %}
 
-<p>{{ challenge.description }}</p>
+<p><pre>{{ challenge.description }}</pre></p>
 
 <form action="{% url 'challenges:info' challenge.id %}" method="post">
 {% csrf_token %}

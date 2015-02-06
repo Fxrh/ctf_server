@@ -2,15 +2,17 @@
 
 {% block body %}
 
-<h1>Edit Challenge {{ challenge.name }} </h1>
+<h2>Edit Challenge {{ challenge.name }}</h2>
 
-{% if error_msg %}<p><strong>{{ error_msg }}</strong></p>{% endif %}
-{% if success_msg %}<p><strong>{{ success_msg }}</strong></p>{% endif %}
+{% if error_msg %}<div class="alert alert-danger">{{ error_msg }}</div>{% endif %}
+{% if success_msg %}<div class="alert alert-success">{{ success_msg }}</div>{% endif %}
 
 <form action="{% url 'challenges:edit' challenge.id %}" method="post">
 {% csrf_token %}
-{{ form }}
-<input type="submit" value="submit">
+<table class="table">
+{{ form.as_table }}
+</table>
+<input type="submit" value="submit" class="btn btn-default">
 </form>
 
 <p>To create/edit your challenge code, call

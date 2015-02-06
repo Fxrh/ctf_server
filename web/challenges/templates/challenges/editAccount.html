@@ -2,7 +2,9 @@
 
 {% block body %}
 
-{% if success_msg %}<p><strong>{{ success_msg }}</strong></p>{% endif %}
+<h2>Edit Account</h2>
+
+{% if success_msg %}<div class="alert alert-success">{{ success_msg }}</div>{% endif %}
 
 <form action="{% url 'challenges:editAccount' %}" method="post">
 {% csrf_token %}

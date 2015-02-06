@@ -3,27 +3,31 @@
 {% block body %}
 
 {% if own_account %}
-<h1>My Account</h1>
+<h2>My Account</h2>
 {% else %}
-<h1>{{ shown_username }}'s Account</h1>
+<h2>{{ shown_username }}'s Account</h2>
 {% endif %}
 
-<table>
+<div class="container">
+<table class="table">
 <tr>
-    <td>Points: </td>
+    <th scope="row">Points: </td>
     <td>{{ shown_user.current_points }}</td>
 </tr>
 {% if own_account %}
 <tr>
-    <td>SSH Key: </td>
-    <td>{{ shown_user.ssh_key }}</td>
+    <th scope="row">SSH&nbsp;Key: </td>
+    <td><pre>{{ shown_user.ssh_key }}</pre></td>
 </tr>
 {% endif %}
 </table>
+</div>
 
 {% if own_account %}
-<p><a href="{% url 'challenges:editAccount' %}">Edit Account</a></p>
-<p><a href="{% url 'challenges:changePassword' %}">Change Password</a></p>
+<ul>
+<li><a href="{% url 'challenges:editAccount' %}">Edit Account</a></li>
+<li><a href="{% url 'challenges:changePassword' %}">Change Password</a></li>
+</ul>
 {% endif %}
 
 {% endblock %}
