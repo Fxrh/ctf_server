@@ -75,6 +75,16 @@ def ranking(request):
     return render(request, 'challenges/ranking.html', context)
 
 
+@login_required()
+def myChallenges(request):
+    context = standardContext(request)
+    context['is_mychallenges'] = True
+    user = User.from_authuser(request.user)
+
+    context['challenges'] = user.created_challenges()
+    return render(request, 'challenges/myChallenges.html', context)
+
+
 def showAccount(request, user_id):
     context = standardContext(request)
     shown_user = get_object_or_404(User, pk=user_id)
