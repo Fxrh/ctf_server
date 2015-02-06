@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidde
 from django.template import RequestContext, loader
 from django.views import generic
 from django.core.urlresolvers import reverse
+from django.core import exceptions
 
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
@@ -94,7 +95,7 @@ def createChallenge(request):
     user = User.from_authuser(request.user)
 
     if not user.allow_create:
-        return HttpResponseForbidden()
+        raise exceptions.PermissionDenied()
 
     if request.method == "POST":
         form = CreateChallengeForm(request.POST)
