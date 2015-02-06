@@ -36,7 +36,7 @@
       {% if username %}
       <p class="navbar-text navbar-right">Logged in as <a href="{% url 'challenges:account' user.id %}">
           {{ username }}</a> (<a href="/logout">Logout</a>)</p>
-      <p class="navbar-text navbar-center">Your Points: {{ user.current_points }} </p>
+      <p class="navbar-text navbar-center">My Points: {{ user.current_points }} </p>
       {% else %}
       <p class="navbar-text navbar-right"><a href="/login">Login</a></p>
       {% endif %}
