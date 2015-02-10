@@ -45,7 +45,7 @@ class User(models.Model):
 class ChallengeCategory(models.Model):
     name = models.CharField(max_length=200)
 
-    @property
+    #@property
     def challenges(self):
         return Challenge.objects.filter(category=self, is_published=True)
 

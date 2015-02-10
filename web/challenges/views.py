@@ -24,7 +24,16 @@ def index(request):
     context = standardContext(request)
     context['is_index'] = True
     category_list = ChallengeCategory.objects.all()
-    context['category_list'] = category_list
+    cats = []
+    for category in category_list:
+        challenge_list = []
+        for challenge in category.challenges():
+            c = {"id": challenge.id, "name": challenge.name, "points": challenge.points}
+            if request.user.is_authenticated():
+                c["solved"] = User.from_authuser(request.user).has_solved(challenge)
+            challenge_list.append(c)
+        cats.append({"name": category.name, "list": challenge_list})
+    context['cats'] = cats
     return render(request, 'challenges/index.html', context)
 
 

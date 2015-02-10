@@ -14,12 +14,13 @@
 </div>
 {% endif %}
 <div class="row">
-{% for category in category_list %}
+{% for category in cats %}
     <div class="col-md-2">
         <h3 align="center">{{ category.name }}</h3>
         <div class="list-group">
-        {% for challenge in category.challenges %}
-            <a href="{% url 'challenges:info' challenge.id %}" class="list-group-item list-group-item-success">
+        {% for challenge in category.list %}
+            <a href="{% url 'challenges:info' challenge.id %}"
+               class="list-group-item {% if challenge.solved %} list-group-item-success {% endif %}">
                 {{ challenge.name }} <span class="badge">{{ challenge.points }}</span>
             </a>
         {% endfor %}
