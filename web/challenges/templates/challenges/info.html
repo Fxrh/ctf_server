@@ -8,15 +8,25 @@
 
 {% if error_msg %}<div class="alert alert-danger">{{ error_msg }}</div>{% endif %}
 {% if success_msg %}<div class="alert alert-success">{{ success_msg }}</div>{% endif %}
-{% if is_author %}<p>You are the author.</p>{% endif %}
 {% if username %}
-    {% if is_solved %}
-        <p>You already solved this challenge</p>
+    {% if is_author %}
+        {% if got_points %}
+            <div class="alert alert-info">You are the author of this challenge.
+            </div>
+        {% else %}
+            <div class="alert alert-info">You are the author of this challenge. As no one else solved this
+                challenge yet, you didn't get the points for it.
+            </div>
+        {% endif %}
     {% else %}
-        <p>You did not yet solve this challenge</p>
+        {% if got_points %}
+            <div class="alert alert-info">You already solved this challenge.</div>
+        {% endif %}
     {% endif %}
 {% else %}
-    <p>Log in to save which challenges you solved</p>
+    <div class="alert alert-info"><a href="{% url 'challenges:login' %}" class="alert-link">Log in</a>
+        to save which challenges you solved
+    </div>
 {% endif %}
 
 <p><pre>{{ challenge.description }}</pre></p>
