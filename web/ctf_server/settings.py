@@ -107,4 +107,6 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/'
 
+STATIC_ROOT = '/var/www/'
+
 
