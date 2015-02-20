@@ -18,5 +18,7 @@ RUN chown -R www-data:www-data /opt/ctfserver && \
     mkdir /var/www/ && \
     cd /opt/ctfserver && python3 manage.py collectstatic --noinput
 
+VOLUME /opt/ctfserver/db.sqlite3
+
 EXPOSE 80
 CMD /usr/local/bin/run_ctfserver.sh
