@@ -10,4 +10,4 @@ If enabled:
 """
 PRESENTATION_MODE = False
 
-HOST_NAME = localhost
+HOST_NAME = 'localhost'
