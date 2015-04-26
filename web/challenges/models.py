@@ -18,7 +18,7 @@ class User(models.Model):
         return u
 
     def has_solved(self, challenge):
-        return challenge.solved_by.filter(authuser=self).exists()
+        return challenge.solved_by.filter(id=self.id).exists()
 
     def got_points(self, challenge):
         if challenge.author == self:
