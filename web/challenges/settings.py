@@ -9,3 +9,5 @@ If enabled:
 - Do not show a notification for normal users that they might get author rights
 """
 PRESENTATION_MODE = False
+
+HOST_NAME = localhost

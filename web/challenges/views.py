@@ -20,6 +20,7 @@ def standardContext(request):
         context['user'] = User.from_authuser(request.user)
     if settings.PRESENTATION_MODE:
         context['presentation_mode'] = True
+    context['host_name'] = settings.HOST_NAME
     return context
 
 
