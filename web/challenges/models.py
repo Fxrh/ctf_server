@@ -35,8 +35,11 @@ class User(models.Model):
                 yield challenge
 
     @staticmethod
-    def getRanking():
-        return User.objects.order_by('-current_points') # - == descending
+    def getRanking(presentation_mode=False):
+        ranking = User.objects.order_by('-current_points') # - == descending
+        if presentation_mode:
+            ranking = ranking.filter(allow_create=False)
+        return ranking
 
     def __str__(self):
         return self.authuser.get_username()

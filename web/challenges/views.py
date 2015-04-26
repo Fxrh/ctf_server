@@ -11,13 +11,16 @@ from django.contrib.auth.decorators import login_required
 from challenges.models import Challenge, User, ChallengeCategory
 from challenges.forms import InfoForm, CreateChallengeForm, EditChallengeForm, EditAccountForm
 
-from challenges import backend
+from challenges import backend, settings
 
 def standardContext(request):
+    context = {}
     if request.user.is_authenticated():
-        return {'username': request.user.get_username(),
-                'user': User.from_authuser(request.user)}
-    return {}
+        context['username'] = request.user.get_username()
+        context['user'] = User.from_authuser(request.user)
+    if settings.PRESENTATION_MODE:
+        context['presentation_mode'] = True
+    return context
 
 
 def index(request):
@@ -78,7 +81,7 @@ def info(request, challenge_id):
 def ranking(request):
     context = standardContext(request)
     context['is_ranking'] = True
-    users = User.getRanking()
+    users = User.getRanking(settings.PRESENTATION_MODE)
 
     context['users'] = users
     return render(request, 'challenges/ranking.html', context)

@@ -1,7 +1,7 @@
 {% extends "challenges/layout.html" %}
 
 {% block body %}
-{% if username %}
+{% if username and not presentation_mode %}
 <div class="alert alert-info" role="alert">
     {% if user.allow_create %}
     If you want to create your own challenge,
