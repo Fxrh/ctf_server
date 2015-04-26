@@ -3,7 +3,7 @@
 DBUS daemon to manage users for the CTF server
 """
 
-import gobject
+from gi.repository import GObject
 
 import dbus
 import dbus.service
@@ -52,7 +52,7 @@ def main():
     name = dbus.service.BusName("de.fxrh.ctfserver", system_bus)
     object = CTFServer(system_bus, '/CTFServer')
 
-    mainloop = gobject.MainLoop()
+    mainloop = GObject.MainLoop()
     mainloop.run()
     
 if __name__ == '__main__':
