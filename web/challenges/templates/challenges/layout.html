@@ -29,9 +29,11 @@
       <ul class="nav navbar-nav">
         <li {% if is_index %} class="active" {% endif %}><a href="/">Challenges</a></li>
         <li {% if is_ranking %} class="active" {% endif %}><a href="{% url 'challenges:ranking' %}">Rankings</a></li>
-        <li {% if is_mychallenges %} class="active" {% endif %}>
-            <a href="{% url 'challenges:myChallenges' %}">My Challenges</a>
-        </li>
+        {% if username %}
+            <li {% if is_mychallenges %} class="active" {% endif %}>
+                <a href="{% url 'challenges:myChallenges' %}">My Challenges</a>
+            </li>
+        {% endif %}
       </ul>
       {% if username %}
       <p class="navbar-text navbar-right">Logged in as <a href="{% url 'challenges:account' user.id %}">
