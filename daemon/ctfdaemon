@@ -28,7 +28,7 @@ class CTFServer(dbus.service.Object):
             service_id = int(service_id)
         except ValueError:
             raise Exception("Only integers allowed as service ids")
-        subprocess.check_call(["/usr/sbin/useradd", "-mUK", "-s", "/bin/bash", "UMASK=077", "ctf-"+str(service_id)])
+        subprocess.check_call(["/usr/sbin/useradd", "-mUK", "UMASK=077", "-s", "/bin/bash", "ctf-"+str(service_id)])
     
     @dbus.service.method(dbus_interface='de.fxrh.ctfserver',
                          in_signature='is', out_signature='')
