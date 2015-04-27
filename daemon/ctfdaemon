@@ -12,8 +12,7 @@ import dbus.mainloop.glib
 import subprocess
 import os
 
-daemontools_file = """
-#!/bin/sh
+daemontools_file = """#!/bin/sh
 ulimit -u 300
 exec setuidgid {u} svscan /home/{u}/service 2>&1
 """
