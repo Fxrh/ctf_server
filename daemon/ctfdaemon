@@ -12,6 +12,20 @@ import dbus.mainloop.glib
 import subprocess
 import os
 
+daemontools_file = """
+#!/bin/sh
+ulimit -u 300
+exec setuidgid {u} svscan /home/{u}/service 2>&1
+"""
+
+def create_daemontools_dir(id):
+    user = "ctf-"+str(id)
+    dir = "/etc/service/run-svscan-{}/".format(user)
+    subprocess.check_call(["mkdir", "-p", dir])
+    with open(dir+"run", "w") as f:
+        f.write(daemontools_file)
+    subprocess.check_call(["chmod", "a+x", dir+"run"])
+
 class CTFServer(dbus.service.Object):
     def __init__(self, bus, object_path):
         dbus.service.Object.__init__(self, bus, object_path)
@@ -29,6 +43,7 @@ class CTFServer(dbus.service.Object):
         except ValueError:
             raise Exception("Only integers allowed as service ids")
         subprocess.check_call(["/usr/sbin/useradd", "-mUK", "UMASK=077", "-s", "/bin/bash", "ctf-"+str(service_id)])
+        create_daemontools_dir(service_id)
     
     @dbus.service.method(dbus_interface='de.fxrh.ctfserver',
                          in_signature='is', out_signature='')
