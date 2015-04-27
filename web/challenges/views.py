@@ -88,7 +88,7 @@ def ranking(request):
     return render(request, 'challenges/ranking.html', context)
 
 
-@login_required()
+@login_required(login_url="challenges:login")
 def myChallenges(request):
     context = standardContext(request)
     context['is_mychallenges'] = True
@@ -112,7 +112,7 @@ def showAccount(request, user_id):
     return render(request, 'challenges/account.html', context)
 
 
-@login_required
+@login_required(login_url="challenges:login")
 def createChallenge(request):
     context = standardContext(request)
     user = User.from_authuser(request.user)
@@ -140,7 +140,7 @@ def createChallenge(request):
     return render(request, 'challenges/create.html', context)
 
 
-@login_required
+@login_required(login_url="challenges:login")
 def editChallenge(request, challenge_id):
     context = standardContext(request)
     user = User.from_authuser(request.user)
@@ -171,7 +171,7 @@ def editChallenge(request, challenge_id):
     return render(request, 'challenges/edit.html', context)
 
 
-@login_required()
+@login_required(login_url="challenges:login")
 def editAccount(request):
     context = standardContext(request)
     user = User.from_authuser(request.user)
