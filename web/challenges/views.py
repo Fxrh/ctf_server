@@ -161,6 +161,11 @@ def editChallenge(request, challenge_id):
                 challenge = Challenge.objects.get(id=challenge_id)
             else:
                 form.save()
+                if "points" in form.changed_data:
+                    print("Points changed, recalculating...")
+                    for user in User.objects.all():
+                        if user.got_points(challenge):
+                            user.recalculate_points()
                 context["success_msg"] = 'Changes saved.'
         else:
             context["error_msg"] = 'Bad Data'
