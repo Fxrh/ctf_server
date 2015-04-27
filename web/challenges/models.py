@@ -67,10 +67,11 @@ class Challenge(models.Model):
     is_published = models.BooleanField(verbose_name='is published', default=False)
 
     @staticmethod
-    def create_challenge( name, solution, author, points, category ):
-        c = Challenge( name=name, solution=solution, author=author, points=points, category=category,
-                       is_published=False )
-        c.save()
+    def create_challenge(name, solution, author, points, category, save=True):
+        c = Challenge(name=name, solution=solution, author=author, points=points, category=category,
+                      is_published=False)
+        if save:
+            c.save()
         return c
 
     @staticmethod

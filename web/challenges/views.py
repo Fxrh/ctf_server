@@ -128,8 +128,9 @@ def createChallenge(request):
             if Challenge.objects.filter(name=name).count() > 0:
                 context['error_msg'] = "A challenge with this name already exists."
             else:
-                challenge = Challenge.create_challenge(name, 'SomeFlag', user, 100, category )
+                challenge = Challenge.create_challenge(name, 'SomeFlag', user, 100, category, save=False)
                 backend.create_challenge(challenge, user)
+                challenge.save()
                 return redirect("challenges:edit", challenge_id=challenge.id)
         else:
             context['error_msg'] = "Bad data"
