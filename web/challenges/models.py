@@ -34,6 +34,14 @@ class User(models.Model):
             if self.is_author(challenge):
                 yield challenge
 
+    def recalculate_points(self):
+        points = 0
+        for challenge in Challenge.objects.all():
+            if self.got_points(challenge):
+                points += challenge.points
+        self.current_points = points
+        self.save()
+
     @staticmethod
     def getRanking(presentation_mode=False):
         ranking = User.objects.order_by('-current_points') # - == descending
