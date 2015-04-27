@@ -23,7 +23,7 @@ def create_daemontools_dir(id):
     dir = "/etc/service/run-svscan-{}/".format(user)
     subprocess.check_call(["mkdir", "-p", dir])
     with open(dir+"run", "w") as f:
-        f.write(daemontools_file)
+        f.write(daemontools_file.format(u=user))
     subprocess.check_call(["chmod", "a+x", dir+"run"])
 
 class CTFServer(dbus.service.Object):
