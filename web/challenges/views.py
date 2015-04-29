@@ -34,7 +34,9 @@ def index(request):
         for challenge in category.challenges():
             c = {"id": challenge.id, "name": challenge.name, "points": challenge.points}
             if request.user.is_authenticated():
-                c["solved"] = User.from_authuser(request.user).has_solved(challenge)
+                u = User.from_authuser(request.user)
+                c["solved"] = u.has_solved(challenge)
+                c["is_author"] = u.is_author(challenge)
             challenge_list.append(c)
         cats.append({"name": category.name, "list": challenge_list})
     context['cats'] = cats

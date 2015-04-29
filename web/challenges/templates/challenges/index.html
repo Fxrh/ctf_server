@@ -20,7 +20,14 @@
         <div class="list-group">
         {% for challenge in category.list %}
             <a href="{% url 'challenges:info' challenge.id %}"
-               class="list-group-item {% if challenge.solved %} list-group-item-success {% endif %}">
+                {% if challenge.solved %}
+                    class="list-group-item list-group-item-success"
+                {% elif challenge.is_author %}
+                    class="list-group-item list-group-item-info"
+                {% else %}
+                    class="list-group-item"
+                {% endif %}
+                >
                 {{ challenge.name }} <span class="badge">{{ challenge.points }}</span>
             </a>
         {% endfor %}
