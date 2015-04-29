@@ -15,7 +15,7 @@
 {% endif %}
 <div class="row">
 {% for category in cats %}
-    <div class="col-md-2">
+    <div class="col-md-{{ column_width }}">
         <h3 align="center">{{ category.name }}</h3>
         <div class="list-group">
         {% for challenge in category.list %}

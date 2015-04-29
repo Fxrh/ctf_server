@@ -27,6 +27,10 @@ def standardContext(request):
 def index(request):
     context = standardContext(request)
     context['is_index'] = True
+
+    num_categories = ChallengeCategory.objects.count()
+    context["column_width"] = max(int(12/num_categories), 2)
+
     category_list = ChallengeCategory.objects.all()
     cats = []
     for category in category_list:
