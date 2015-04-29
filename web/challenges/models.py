@@ -74,6 +74,9 @@ class Challenge(models.Model):
     category = models.ForeignKey(ChallengeCategory, verbose_name='category')
     is_published = models.BooleanField(verbose_name='is published', default=False)
 
+    class Meta:
+        ordering = ('points',)
+
     @staticmethod
     def create_challenge(name, solution, author, points, category, save=True):
         c = Challenge(name=name, solution=solution, author=author, points=points, category=category,
