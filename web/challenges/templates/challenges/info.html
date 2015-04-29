@@ -39,4 +39,9 @@
 <input type="submit" value="Submit">
 </form>
 
+<h4>Solved by:</h4>
+{% for solver in solved_by %}
+<a href="{% url 'challenges:account' solver.id %}">{{ solver.authuser.get_username }}</a>
+{% endfor %}
+
 {% endblock %}
