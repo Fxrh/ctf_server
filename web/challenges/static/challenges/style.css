@@ -1,3 +1,7 @@
 li a {
     color: green;
 }
+
+pre {
+    white-space: pre-wrap !important;
+}
