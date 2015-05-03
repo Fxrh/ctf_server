@@ -8,27 +8,29 @@
 
 <p>Author: <a href="{% url 'challenges:account' author.id %}">{{ author.authuser.get_username }}</a></p>
 
-{% if error_msg %}<div class="alert alert-danger">{{ error_msg }}</div>{% endif %}
-{% if success_msg %}<div class="alert alert-success">{{ success_msg }}</div>{% endif %}
-{% if username %}
-    {% if is_author %}
-        {% if got_points %}
-            <div class="alert alert-info">You are the author of this challenge.
-            </div>
+{% if error_msg %}<div class="alert alert-danger">{{ error_msg }}</div>
+{% elif success_msg %}<div class="alert alert-success">{{ success_msg }}</div>
+{% else %}
+    {% if username %}
+        {% if is_author %}
+            {% if got_points %}
+                <div class="alert alert-info">You are the author of this challenge.
+                </div>
+            {% else %}
+                <div class="alert alert-info">You are the author of this challenge. As no one else solved this
+                    challenge yet, you didn't get the points for it.
+                </div>
+            {% endif %}
         {% else %}
-            <div class="alert alert-info">You are the author of this challenge. As no one else solved this
-                challenge yet, you didn't get the points for it.
-            </div>
+            {% if got_points %}
+                <div class="alert alert-info">You already solved this challenge.</div>
+            {% endif %}
         {% endif %}
     {% else %}
-        {% if got_points %}
-            <div class="alert alert-info">You already solved this challenge.</div>
-        {% endif %}
+        <div class="alert alert-info"><a href="{% url 'challenges:login' %}" class="alert-link">Log in</a>
+            to save which challenges you solved
+        </div>
     {% endif %}
-{% else %}
-    <div class="alert alert-info"><a href="{% url 'challenges:login' %}" class="alert-link">Log in</a>
-        to save which challenges you solved
-    </div>
 {% endif %}
 
 <p><pre>{{ challenge.description }}</pre></p>
