@@ -6,6 +6,8 @@
     {% if is_author %}<small>(<a href="{% url 'challenges:edit' challenge.id %}">edit</a>)</small>{% endif %}
 </h1>
 
+<p>Author: <a href="{% url 'challenges:account' author.id %}">{{ author.authuser.get_username }}</a></p>
+
 {% if error_msg %}<div class="alert alert-danger">{{ error_msg }}</div>{% endif %}
 {% if success_msg %}<div class="alert alert-success">{{ success_msg }}</div>{% endif %}
 {% if username %}

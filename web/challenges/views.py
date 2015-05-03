@@ -83,6 +83,7 @@ def info(request, challenge_id):
             context['is_author'] = True
 
     context['solved_by'] = challenge.solved_by.all()
+    context['author'] = challenge.author
 
     return render(request, 'challenges/info.html', context)
 
