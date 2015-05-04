@@ -169,19 +169,13 @@ def editChallenge(request, challenge_id):
     if request.method == 'POST':
         form = EditChallengeForm(request.POST, instance=challenge)
         if form.is_valid():
-            is_published = form.cleaned_data['is_published']
-            print( "Before: {0}, After: {1}".format(is_published_before, is_published) )
-            if (not is_published) and is_published_before:
-                context["error_msg"] = 'Cannot unpublish a challenge!'
-                challenge = Challenge.objects.get(id=challenge_id)
-            else:
-                form.save()
-                if "points" in form.changed_data:
-                    print("Points changed, recalculating...")
-                    for user in User.objects.all():
-                        if user.got_points(challenge):
-                            user.recalculate_points()
-                context["success_msg"] = 'Changes saved.'
+            form.save()
+            if "points" in form.changed_data:
+                print("Points changed, recalculating...")
+                for user in User.objects.all():
+                    if user.got_points(challenge):
+                        user.recalculate_points()
+            context["success_msg"] = 'Changes saved.'
         else:
             context["error_msg"] = 'Bad Data'
     else:
