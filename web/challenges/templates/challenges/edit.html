@@ -17,6 +17,8 @@
 
 <p>To create/edit your challenge code, call
 <pre>ssh ctf-{{ challenge.id }}@{{ host_name }}</pre>
+For this to work, you need to upload your public key in your
+<a href="{% url 'challenges:editAccount' %}">account settings</a>.
 </p>
 
 {% endblock %}
