@@ -1,17 +1,19 @@
 {% extends "challenges/layout.html" %}
 
 {% block body %}
-{% if username and not presentation_mode %}
-<div class="alert alert-info" role="alert">
+{% if username %}
     {% if user.allow_create %}
+    <div class="alert alert-info" role="alert">
     If you want to create your own challenge,
     <a href="{% url 'challenges:create' %}" class="alert-link">
         click here!
     </a>
-    {% else %}
+    </div>
+    {% elif not presentation_mode %}
+    <div class="alert alert-info" role="alert">
     If you want to create your own challenge, ask fxrh to unlock this feature for you!
+    </div>
     {% endif %}
-</div>
 {% endif %}
 <div class="row">
 {% for category in cats %}
