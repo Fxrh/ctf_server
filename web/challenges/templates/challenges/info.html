@@ -44,8 +44,10 @@
 </form>
 
 <h4>Solved by:</h4>
+<ul>
 {% for solver in solved_by %}
-<a href="{% url 'challenges:account' solver.id %}">{{ solver.authuser.get_username }}</a>
+    <li><a href="{% url 'challenges:account' solver.id %}">{{ solver.authuser.get_username }}</a></li>
 {% endfor %}
+</ul>
 
 {% endblock %}
