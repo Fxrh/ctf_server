@@ -28,12 +28,17 @@ def index(request):
     context = standardContext(request)
     context['is_index'] = True
 
-    num_categories = ChallengeCategory.objects.count()
-    context["column_width"] = max(int(12/num_categories), 2)
-
     category_list = ChallengeCategory.objects.all()
-    cats = []
+    nonempty_category_list = []
     for category in category_list:
+        if category.challenges().count() > 0:
+            nonempty_category_list.append(category)
+
+    num_nonempty_categories = len(nonempty_category_list)
+    context["column_width"] = max(int(12 / max(1, num_nonempty_categories)), 2)
+    cats = []
+
+    for category in nonempty_category_list:
         challenge_list = []
         for challenge in category.challenges():
             c = {"id": challenge.id, "name": challenge.name, "points": challenge.points}

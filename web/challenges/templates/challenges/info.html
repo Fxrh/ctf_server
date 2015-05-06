@@ -35,17 +35,19 @@
 
 <p><pre>{{ challenge.description }}</pre></p>
 
-<form action="{% url 'challenges:info' challenge.id %}" method="post">
-{% csrf_token %}
-{{ form }}
-<!--<label for="try_solution">Enter solution:</label>-->
-<!--<input id="try_solution" type="text" name="try_solution" maxlength="200">-->
-<input type="submit" value="Submit">
+<form class="form-inline" action="{% url 'challenges:info' challenge.id %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        {{ form }}
+    </div>
+    <button type="submit" class="btn btn-success">Submit</button>
 </form>
 
 <h4>Solved by:</h4>
+<ul>
 {% for solver in solved_by %}
-<a href="{% url 'challenges:account' solver.id %}">{{ solver.authuser.get_username }}</a>
+    <li><a href="{% url 'challenges:account' solver.id %}">{{ solver.authuser.get_username }}</a></li>
 {% endfor %}
+</ul>
 
 {% endblock %}
