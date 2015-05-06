@@ -3,7 +3,11 @@ from challenges.models import ChallengeCategory, Challenge, User
 
 
 class InfoForm(forms.Form):
-    try_solution = forms.CharField(max_length=200, label='Enter solution')
+    try_solution = forms.CharField(
+        max_length=200, label='',
+        widget=forms.TextInput(attrs={'class': 'form-control',
+                                      'placeholder': 'Flag'})
+    )
 
 
 class CreateChallengeForm(forms.Form):
