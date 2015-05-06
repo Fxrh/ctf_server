@@ -29,7 +29,7 @@ def index(request):
     context['is_index'] = True
 
     num_categories = ChallengeCategory.objects.count()
-    context["column_width"] = max(int(12/num_categories), 2)
+    context["column_width"] = max(int(12 / max(1, num_categories)), 2)
 
     category_list = ChallengeCategory.objects.all()
     cats = []
