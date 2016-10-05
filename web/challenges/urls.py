@@ -1,8 +1,9 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
+from django.contrib.auth import views as auth_views
 
 from challenges import views
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^ranking/$', views.ranking, name="ranking"),
     url(r'^challenge/(?P<challenge_id>\d+)/$', views.info, name="info"),
@@ -12,10 +13,11 @@ urlpatterns = patterns('',
     url(r'^user/(?P<user_id>\d+)/$', views.showAccount, name="account"),
     url(r'^editAccount/$', views.editAccount, name="editAccount"),
     url(r'^createAccount/$', views.createAccount, name="createAccount"),
-    url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'challenges/login.html',
-                                                         'current_app': 'challenges'}, name="login"),
-    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': 'challenges:index'}, name="logout"),
-    url(r'^changePassword/$', 'django.contrib.auth.views.password_change',
-            {'template_name': 'challenges/changePassword.html', 'current_app': 'challenges',
-             'post_change_redirect': 'challenges:index'}, name="changePassword"),
-)
+    url(r'^login/$', auth_views.login, {'template_name': 'challenges/login.html', 'current_app': 'challenges'},
+        name="login"),
+    url(r'^logout/$', auth_views.logout, {'next_page': 'challenges:index'}, name="logout"),
+    url(r'^changePassword/$', auth_views.password_change, {'template_name': 'challenges/changePassword.html',
+                                                           'current_app': 'challenges',
+                                                           'post_change_redirect': 'challenges:index'},
+        name="changePassword"),
+]

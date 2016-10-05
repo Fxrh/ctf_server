@@ -9,26 +9,28 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 import os
 
+from django.utils.crypto import get_random_string
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 
 def try_create_personalsettings():
     print("Trying to create personalsettings...")
-    if os.path.exists(os.path.join(BASE_DIR, 'ctf_server/personalsettings.py')):
+    path = os.path.join(BASE_DIR, 'ctf_server/personalsettings.py')
+    if os.path.exists(path):
         return
     try:
-        f = open(os.path.join(BASE_DIR, 'ctf_server/personalsettings.py'), 'w')
-        f.write("# Do not include this file in version control\n\n")
-        chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
-        secret = get_random_string(50, chars)
-        f.write("SECRET_KEY = '{s}'\n".format(s=secret))
-        f.close()
+        with open(path, 'w') as handle:
+            chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
+            secret = get_random_string(50, chars)
+            handle.write("# Do not include this file in version control\n\n")
+            handle.write("SECRET_KEY = '{s}'\n".format(s=secret))
         print("Created")
     except IOError:
         return
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-from django.utils.crypto import get_random_string
 try:
     from ctf_server import personalsettings
 except ImportError:
@@ -44,7 +46,28 @@ SECRET_KEY = personalsettings.SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            # insert your TEMPLATE_DIRS here
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
+                # list if you haven't customized them:
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 ALLOWED_HOSTS = []
 
@@ -106,7 +129,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/'
-
-STATIC_ROOT = '/var/www/'
 
 
