@@ -2,26 +2,27 @@
 
 {% block body %}
 
-<h2>Create new Challenge</h2>
+    <h1>Create new Challenge</h1>
 
-{% if error_msg %}<div class="alert alert-danger">{{ error_msg }}</div>{% endif %}
+    {% if error_msg %}
+        <div class="alert alert-danger">{{ error_msg }}</div>{% endif %}
 
-<div class="container-fluid">
-<form action="{% url 'challenges:create' %}" method="post">
-{% csrf_token %}
-{{ form.non_field_errors }}
-<div class="form-group">
-    {{ form.challenge_name.errors }}
-    {{ form.challenge_name.label_tag }}
-    {{ form.challenge_name }}
-</div>
-<div class="form-group">
-    {{ form.category.errors }}
-    {{ form.category.label_tag }}
-    {{ form.category }}
-</div>
-<input type="submit" value="submit" class="btn btn-default">
-</form>
-</div>
+    <div class="container-fluid">
+        <form action="{% url 'challenges:create' %}" method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="form-group">
+                {{ form.challenge_name.errors }}
+                {{ form.challenge_name.label_tag }}
+                {{ form.challenge_name }}
+            </div>
+            <div class="form-group">
+                {{ form.category.errors }}
+                {{ form.category.label_tag }}
+                {{ form.category }}
+            </div>
+            <input type="submit" value="submit" class="btn btn-default">
+        </form>
+    </div>
 
 {% endblock %}

@@ -1,40 +1,40 @@
 {% extends "challenges/layout.html" %}
 
 {% block body %}
-{% if username %}
-    {% if user.allow_create %}
-    <div class="alert alert-info" role="alert">
-    If you want to create your own challenge,
-    <a href="{% url 'challenges:create' %}" class="alert-link">
-        click here!
-    </a>
-    </div>
-    {% elif not presentation_mode %}
-    <div class="alert alert-info" role="alert">
-    If you want to create your own challenge, ask fxrh to unlock this feature for you!
-    </div>
+    {% if username %}
+        {% if user.allow_create %}
+            <div class="alert alert-info" role="alert">
+                If you want to create your own challenge,
+                <a href="{% url 'challenges:create' %}" class="alert-link">
+                    click here!
+                </a>
+            </div>
+        {% elif not presentation_mode %}
+            <div class="alert alert-info" role="alert">
+                If you want to create your own challenge, ask fxrh to unlock this feature for you!
+            </div>
+        {% endif %}
     {% endif %}
-{% endif %}
-<div class="row">
-{% for category in cats %}
-    <div class="col-md-{{ column_width }}">
-        <h3 align="center">{{ category.name }}</h3>
-        <div class="list-group">
-        {% for challenge in category.list %}
-            <a href="{% url 'challenges:info' challenge.id %}"
-                {% if challenge.solved %}
-                    class="list-group-item list-group-item-success"
-                {% elif challenge.is_author %}
-                    class="list-group-item list-group-item-info"
-                {% else %}
-                    class="list-group-item"
-                {% endif %}
-                >
-                {{ challenge.name }} <span class="badge">{{ challenge.points }}</span>
-            </a>
+    <div class="row">
+        {% for category in cats %}
+            <div class="col-md-{{ column_width }}">
+                <h3 align="center">{{ category.name }}</h3>
+                <div class="list-group">
+                    {% for challenge in category.list %}
+                        <a href="{% url 'challenges:info' challenge.id %}"
+                                {% if challenge.solved %}
+                           class="list-group-item list-group-item-success"
+                                {% elif challenge.is_author %}
+                           class="list-group-item list-group-item-info"
+                                {% else %}
+                           class="list-group-item"
+                                {% endif %}
+                        >
+                            {{ challenge.name }} <span class="badge">{{ challenge.points }}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
         {% endfor %}
-        </div>
     </div>
-{% endfor %}
-</div>
 {% endblock %}

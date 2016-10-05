@@ -1,56 +1,61 @@
-<!DOCTYPE HTML>
-<html>
-
+<!doctype html>
+<html>{% load staticfiles %}{% load bootstrap3 %}{% load fontawesome %}
 <head>
-{% load staticfiles %}
-
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="{% static 'challenges/bootstrap.min.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'challenges/style.css' %}" />
-<title>Chaos macht Schule</title>
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Capture the Flag</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'challenges/style.css' %}"/>
+    {% bootstrap_css %}
+    {% fontawesome_stylesheet %}
 </head>
 <body>
-<div class="container">
-<nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">Chaos macht Schule</a>
-    </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li {% if is_index %} class="active" {% endif %}><a href="/">Challenges</a></li>
-        <li {% if is_ranking %} class="active" {% endif %}><a href="{% url 'challenges:ranking' %}">Rankings</a></li>
-        {% if username %}
-            <li {% if is_mychallenges %} class="active" {% endif %}>
-                <a href="{% url 'challenges:myChallenges' %}">My Challenges</a>
-            </li>
-        {% endif %}
-      </ul>
-      {% if username %}
-      <p class="navbar-text navbar-right">Logged in as <a href="{% url 'challenges:account' user.id %}">
-          {{ username }}</a> (<a href="/logout">Logout</a>)</p>
-      <p class="navbar-text navbar-center">My Points: {{ user.current_points }} </p>
-      {% else %}
-      <p class="navbar-text navbar-right"><a href="/login">Login</a> or <a href="/createAccount">Register</a></p>
-      {% endif %}
+<nav class="navbar navbar-default navbar-inverse" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">
+                {% fontawesome_icon 'th' color='orange' large=True %}
+                Capture the Flag!
+            </a>
+        </div>
 
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li {% if is_index %} class="active" {% endif %}><a href="/">Challenges</a></li>
+                <li {% if is_ranking %} class="active" {% endif %}><a href="{% url 'challenges:ranking' %}">Ranking</a>
+                </li>
+                {% if username %}
+                    <li {% if is_mychallenges %} class="active" {% endif %}>
+                        <a href="{% url 'challenges:myChallenges' %}">My Challenges</a>
+                    </li>
+                {% endif %}
+            </ul>
+            {% if username %}
+                <p class="navbar-text navbar-right"><a href="{% url 'challenges:account' user.id %}">
+                    {{ username }}</a> (<a href="/logout">Logout</a>)</p>
+                <p class="navbar-text navbar-right">Score: {{ user.current_points }} </p>
+            {% else %}
+                <p class="navbar-text navbar-right"><a href="/login">Login</a> or <a href="/createAccount">Register</a>
+                </p>
+            {% endif %}
+
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
 </nav>
 
-{% block body %}{% endblock %}
-
+<div class="container">
+    {% bootstrap_messages %}
+    {% block body %}{% endblock %}
 </div>
+
+{% bootstrap_javascript %}
 </body>
 </html>

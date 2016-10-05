@@ -1,3 +1,5 @@
-Django==1.7.1
-django-debug-toolbar==1.2.2
-sqlparse==0.1.13
+Django==1.10.2
+django-debug-toolbar==1.5
+sqlparse
+django-bootstrap3=7.1.0
+django-fontawesome

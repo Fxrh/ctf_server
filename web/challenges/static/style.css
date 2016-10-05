@@ -1,0 +1,16 @@
+li a {
+    color: green;
+}
+
+pre {
+    white-space: pre-wrap !important;
+}
+
+img.logo {
+    vertical-align: top;
+    max-height: 30px;
+}
+
+navbar-brand {
+    color: orange;
+}
