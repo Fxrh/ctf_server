@@ -1,26 +1,23 @@
 {% extends "challenges/layout.html" %}
+{% load bootstrap3 %}
 
 {% block body %}
 
-<h2> Login </h2>
+    <h1>Login</h1>
 
-{% if form.errors %}<p><strong>Your username and password didn't match. Please try again.</strong></p>{% endif %}
-
-<form action="{% url 'challenges:login' %}" method="post">
-{% csrf_token %}
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
-
-<input type="submit" value="login" />
-<input type="hidden" name="next" value="{{ next }}" />
-</form>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form action="{% url 'challenges:login' %}" method="post" class="form">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}"/>
+                {% bootstrap_form form layout='inline' %}
+                {% buttons %}
+                    <button type="submit" class="btn btn-primary">
+                        Login
+                    </button>
+                {% endbuttons %}
+            </form>
+        </div>
+    </div>
 
 {% endblock %}

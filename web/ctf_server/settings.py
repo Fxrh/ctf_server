@@ -83,6 +83,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'challenges',
     'debug_toolbar',
+    'bootstrap3',
+    'fontawesome'
 )
 
 MIDDLEWARE_CLASSES = (

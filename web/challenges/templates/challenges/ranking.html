@@ -1,22 +1,22 @@
 {% extends "challenges/layout.html" %}
 
 {% block body %}
-<h2>Ranking</h2>
+    <h1>Ranking</h1>
 
-<table class="table table-striped">
-    <thead>
-       <tr>
+    <table class="table table-striped">
+        <thead>
+        <tr>
             <th>User</th>
             <th>Points</th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         {% for user in users %}
-        <tr>
-            <td>{{ user.authuser.get_username }}</td>
-            <td>{{ user.current_points }}</td>
-        </tr>
+            <tr>
+                <td>{{ user.authuser.get_username }}</td>
+                <td>{{ user.current_points }}</td>
+            </tr>
         {% endfor %}
-    </tbody>
-</table>
+        </tbody>
+    </table>
 {% endblock %}

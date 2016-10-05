@@ -1,10 +1,11 @@
 from django.db import models
 from django.contrib import auth
 
+
 class User(models.Model):
     authuser = models.ForeignKey(auth.models.User)
     current_points = models.IntegerField()
-    ssh_key = models.CharField(max_length=8400, blank=True)
+    ssh_key = models.TextField(blank=True)
     allow_create = models.BooleanField(default=False)
 
     @staticmethod

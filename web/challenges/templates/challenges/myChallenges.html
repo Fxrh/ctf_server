@@ -2,12 +2,12 @@
 
 {% block body %}
 
-<h2>My Challenges</h2>
+    <h1>My Challenges</h1>
 
-<ul>
-{% for c in challenges %}
-    <li><a href="{% url 'challenges:info' c.id %}">{{ c.name }}</a></li>
-{% endfor %}
-</ul>
+    <ul>
+        {% for c in challenges %}
+            <li><a href="{% url 'challenges:info' c.id %}">{{ c.name }}</a></li>
+        {% endfor %}
+    </ul>
 
 {% endblock %}

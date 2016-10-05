@@ -2,32 +2,39 @@
 
 {% block body %}
 
-{% if own_account %}
-<h2>My Account</h2>
-{% else %}
-<h2>{{ shown_username }}'s Account</h2>
-{% endif %}
+    {% if own_account %}
+        <h1>Your Account</h1>
+        <ul class="nav nav-pills">
+            <li role="presentation">
+                <a href="{% url 'challenges:editAccount' %}">Modify Account</a>
+            </li>
+            <li>
+                <a href="{% url 'challenges:changePassword' %}">Change Password</a>
+            </li>
+        </ul>
+    {% else %}
+        <h1>{{ shown_username }}'s Account</h1>
+    {% endif %}
 
-<div class="container">
-<table class="table">
-<tr>
-    <th scope="row">Points: </td>
-    <td>{{ shown_user.current_points }}</td>
-</tr>
-{% if own_account %}
-<tr>
-    <th scope="row">SSH&nbsp;Key: </td>
-    <td><pre>{{ shown_user.ssh_key }}</pre></td>
-</tr>
-{% endif %}
-</table>
-</div>
-
-{% if own_account %}
-<ul>
-<li><a href="{% url 'challenges:editAccount' %}">Edit Account</a></li>
-<li><a href="{% url 'challenges:changePassword' %}">Change Password</a></li>
-</ul>
-{% endif %}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <table class="table-responsive">
+                <tr>
+                    <th scope="row" style="width: 15%">Score:
+                    </td>
+                    <td>{{ shown_user.current_points }}</td>
+                </tr>
+                {% if own_account %}
+                    <tr>
+                        <th scope="row">SSH&nbsp;Key:
+                        </th>
+                        <td>
+                            <pre style="margin-top: 5px; margin-bottom: 5px">{{ shown_user.ssh_key }}</pre>
+                        </td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
 
 {% endblock %}

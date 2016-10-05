@@ -1,15 +1,23 @@
 {% extends "challenges/layout.html" %}
+{% load bootstrap3 %}
 
 {% block body %}
 
-<h2>Edit Account</h2>
+    <h1>Account<br/>
+        <small>Modify</small>
+    </h1>
 
-{% if success_msg %}<div class="alert alert-success">{{ success_msg }}</div>{% endif %}
+    {% if success_msg %}
+        <div class="alert alert-success">{{ success_msg }}</div>{% endif %}
 
-<form action="{% url 'challenges:editAccount' %}" method="post">
-{% csrf_token %}
-{{ form }}
-<input type="submit" value="submit">
-</form>
+    <form action="{% url 'challenges:editAccount' %}" method="post" class="form">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit">
+                Save
+            </button>
+        {% endbuttons %}
+    </form>
 
 {% endblock %}

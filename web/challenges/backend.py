@@ -1,19 +1,30 @@
-import dbus
+try:
+    import dbus
 
-daemon = "de.fxrh.ctfserver"
-daemon_object = "/CTFServer"
-
-
-def create_challenge(challenge, user):
-    system_bus = dbus.SystemBus()
-    proxy = system_bus.get_object(daemon, daemon_object)
-    proxy.addServiceAccount(challenge.id)
-    if user.ssh_key != "":
-        proxy.setServiceKeys(challenge.id, user.ssh_key)
+    daemon = "de.fxrh.ctfserver"
+    daemon_object = "/CTFServer"
 
 
-def update_keys_for_user(user):
-    system_bus = dbus.SystemBus()
-    proxy = system_bus.get_object(daemon, daemon_object)
-    for challenge in user.created_challenges():
-        proxy.setServiceKeys(challenge.id, user.ssh_key)
+    def create_challenge(challenge, user):
+        system_bus = dbus.SystemBus()
+        proxy = system_bus.get_object(daemon, daemon_object)
+        proxy.addServiceAccount(challenge.id)
+        if user.ssh_key != "":
+            proxy.setServiceKeys(challenge.id, user.ssh_key)
+
+
+    def update_keys_for_user(user):
+        system_bus = dbus.SystemBus()
+        proxy = system_bus.get_object(daemon, daemon_object)
+        for challenge in user.created_challenges():
+            proxy.setServiceKeys(challenge.id, user.ssh_key)
+
+except ImportError:
+    import sys
+    print("Missing dbus module, mocking related functions", file=sys.stderr)
+
+    def create_challenge(challenge, user):
+        return
+
+    def update_keys_for_user(user):
+        return
